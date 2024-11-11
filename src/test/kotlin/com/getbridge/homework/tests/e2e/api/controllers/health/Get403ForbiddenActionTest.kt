@@ -1,7 +1,7 @@
 package com.getbridge.homework.tests.e2e.api.controllers.health
 
 import com.getbridge.homework.api.config.HttpSecurityConfig
-import com.getbridge.homework.api.controllers.health.Get403ForbiddenController
+import com.getbridge.homework.api.controllers.health.Get403ForbiddenAction
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -10,9 +10,9 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
-@WebMvcTest(Get403ForbiddenController::class)
-@ContextConfiguration(classes = [Get403ForbiddenController::class, HttpSecurityConfig::class])
-class Http403Forbidden4Test {
+@WebMvcTest(Get403ForbiddenAction::class)
+@ContextConfiguration(classes = [Get403ForbiddenAction::class, HttpSecurityConfig::class])
+class Get403ForbiddenActionTest {
 
     @Autowired
     private lateinit var mockMvc: MockMvc

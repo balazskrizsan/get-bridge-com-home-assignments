@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-@RestController("HealtControllerGet403ForbiddenController")
+@RestController("HealthController_Get200OkController")
 @RequestMapping("/health")
-class Get403ForbiddenController {
+class Get200OkAction {
 
-    @GetMapping("/403Forbidden")
-    fun action() = ResponseEntity("Must be blocked by Http Security", HttpStatusCode.valueOf(200))
+    @GetMapping("/200Ok")
+    fun action() = ResponseEntity("OK", HttpStatusCode.valueOf(200))
 }
