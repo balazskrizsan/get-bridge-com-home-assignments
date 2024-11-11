@@ -1,0 +1,47 @@
+### PSQL
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: gb-homework-dev
+  name: gb-homework-dev-psql-deployment
+  labels:
+    app: gb-homework-dev-psql-label
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gb-homework-dev-psql-label
+  template:
+    metadata:
+      labels:
+        app: gb-homework-dev-psql-label
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16.2
+          ports:
+            - containerPort: 5432
+          imagePullPolicy: IfNotPresent
+          resources: {}
+          env:
+            - name: POSTGRES_USER
+              value: admin
+            - name: POSTGRES_PASSWORD
+              value: password
+            - name: POSTGRES_DB
+              value: oneonone
+            - name: PGDATA
+              value: /data/postgres
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: gb-homework-dev
+  name: gb-homework-dev-psql-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 9091
+      targetPort: 5432
+  selector:
+    app: gb-homework-dev-psql-label
