@@ -15,6 +15,9 @@ class HttpSecurityConfig {
             .csrf { it.disable() }
             .authorizeHttpRequests { r ->
                 r.requestMatchers(HttpMethod.GET, "/health/200Ok").permitAll()
+
+                r.requestMatchers(HttpMethod.POST, "/api/v1/one-on-one/").permitAll()
+
                 r.anyRequest().denyAll()
             }
 
