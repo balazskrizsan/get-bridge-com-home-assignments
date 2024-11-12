@@ -1,0 +1,1 @@
+TRUNCATE TABLE one_on_ones, participants RESTART IDENTITY CASCADE;
