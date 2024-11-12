@@ -25,4 +25,8 @@ class OneOnOneService(
 
         participantService.createAll(mapToParticipant.map { it.copy(oneOnOnesId = newOneOnOne.id) })
     }
+
+    fun delete(id: Long) {
+        oneOnOneRepository.delete(id)
+    }
 }

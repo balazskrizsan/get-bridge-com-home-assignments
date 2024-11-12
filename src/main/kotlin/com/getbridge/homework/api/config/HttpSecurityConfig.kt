@@ -17,6 +17,7 @@ class HttpSecurityConfig {
                 r.requestMatchers(HttpMethod.GET, "/health/200Ok").permitAll()
 
                 r.requestMatchers(HttpMethod.POST, "/api/v1/one-on-one/").permitAll()
+                r.requestMatchers(HttpMethod.DELETE, "/api/v1/one-on-one/**").permitAll()
 
                 r.anyRequest().denyAll()
             }
