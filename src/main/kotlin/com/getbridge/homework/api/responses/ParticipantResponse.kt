@@ -1,4 +1,4 @@
-package com.getbridge.homework.api.controllers.responses
+package com.getbridge.homework.api.responses
 
 data class ParticipantResponse (
     val oneOnOnesId: Long?,

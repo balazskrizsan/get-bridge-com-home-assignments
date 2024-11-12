@@ -1,6 +1,6 @@
 package com.getbridge.homework.api.controllers.oneonone
 
-import com.getbridge.homework.api.controllers.responses.GetResponse
+import com.getbridge.homework.api.responses.GetResponse
 import com.getbridge.homework.api.services.ResponseMapperService
 import com.getbridge.homework.domain.oneonone_module.services.OneOnOneService
 import com.kbalazsworks.common.builders.ResponseEntityBuilder

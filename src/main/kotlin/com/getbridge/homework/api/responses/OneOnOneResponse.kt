@@ -1,4 +1,4 @@
-package com.getbridge.homework.api.controllers.responses
+package com.getbridge.homework.api.responses
 
 import java.time.LocalDateTime
 

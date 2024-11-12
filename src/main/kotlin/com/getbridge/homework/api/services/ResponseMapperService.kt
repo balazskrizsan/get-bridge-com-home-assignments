@@ -1,8 +1,8 @@
 package com.getbridge.homework.api.services
 
-import com.getbridge.homework.api.controllers.responses.GetResponse
-import com.getbridge.homework.api.controllers.responses.OneOnOneResponse
-import com.getbridge.homework.api.controllers.responses.ParticipantResponse
+import com.getbridge.homework.api.responses.GetResponse
+import com.getbridge.homework.api.responses.OneOnOneResponse
+import com.getbridge.homework.api.responses.ParticipantResponse
 import com.getbridge.homework.domain.oneonone_module.entities.OneOnOne
 import com.getbridge.homework.domain.oneonone_module.entities.Participant
 import com.getbridge.homework.domain.oneonone_module.value_objects.OneOnOneWithParticipants
