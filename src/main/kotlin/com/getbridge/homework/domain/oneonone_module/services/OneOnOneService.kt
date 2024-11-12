@@ -4,14 +4,15 @@ import com.getbridge.homework.domain.common_module.services.JooqService
 import com.getbridge.homework.domain.oneonone_module.entities.OneOnOne
 import com.getbridge.homework.domain.oneonone_module.entities.Participant
 import com.getbridge.homework.domain.oneonone_module.repositories.OneOnOneRepository
+import com.getbridge.homework.domain.oneonone_module.value_objects.OneOnOneWithParticipants
 import org.jooq.Configuration
 import org.springframework.stereotype.Service
 
 @Service
 class OneOnOneService(
-    val jooqService: JooqService,
-    val oneOnOneRepository: OneOnOneRepository,
-    val participantService: ParticipantService,
+    private val jooqService: JooqService,
+    private val oneOnOneRepository: OneOnOneRepository,
+    private val participantService: ParticipantService,
 ) {
 
     fun create(oneOnOne: OneOnOne, mapToParticipant: List<Participant>) {
@@ -28,5 +29,9 @@ class OneOnOneService(
 
     fun delete(id: Long) {
         oneOnOneRepository.delete(id)
+    }
+
+    fun get(id: Long): OneOnOneWithParticipants {
+        return oneOnOneRepository.get(id)
     }
 }
