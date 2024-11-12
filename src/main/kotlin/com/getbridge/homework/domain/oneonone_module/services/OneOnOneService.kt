@@ -34,4 +34,10 @@ class OneOnOneService(
     fun get(id: Long): OneOnOneWithParticipants {
         return oneOnOneRepository.get(id)
     }
+
+    fun update(oneOnOne: OneOnOne, participants: List<Participant>) {
+        oneOnOneRepository.update(oneOnOne)
+        participantService.deleteByOneOnOneId(oneOnOne.id)
+        participantService.createAll(participants)
+    }
 }

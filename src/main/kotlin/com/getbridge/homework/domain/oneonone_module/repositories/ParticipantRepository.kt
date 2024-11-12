@@ -17,4 +17,11 @@ class ParticipantRepository(val jooqService: JooqService) {
             ?.valuesOfRows(participants.map { row(it.oneOnOnesId, it.employeeId) })
             ?.execute()
     }
+
+    fun deleteByOneOnOneId(id: Long?) {
+        jooqService.dbContext
+            ?.deleteFrom(participantTable)
+            ?.where(participantTable.ONE_ON_ONES_ID.eq(id))
+            ?.execute()
+    }
 }

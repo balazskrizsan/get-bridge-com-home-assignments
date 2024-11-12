@@ -52,4 +52,15 @@ class OneOnOneRepository(private val jooqService: JooqService) {
 
         return response
     }
+
+    fun update(oneOnOne: OneOnOne) {
+        jooqService.dbContext
+            ?.update(oneOnOnesTable)
+            ?.set(oneOnOnesTable.TITLE, oneOnOne.title)
+            ?.set(oneOnOnesTable.PLANNED_DATE, oneOnOne.plannedDate)
+            ?.set(oneOnOnesTable.DESCRIPTION, oneOnOne.description)
+            ?.set(oneOnOnesTable.LOCATION, oneOnOne.location)
+            ?.where(oneOnOnesTable.ID.eq(oneOnOne.id))
+            ?.execute()
+    }
 }

@@ -5,9 +5,13 @@ import com.getbridge.homework.domain.oneonone_module.repositories.ParticipantRep
 import org.springframework.stereotype.Service
 
 @Service
-class ParticipantService(val participantRepository: ParticipantRepository) {
+class ParticipantService(private val participantRepository: ParticipantRepository) {
 
     fun createAll(participants: List<Participant>) {
         participantRepository.createAll(participants)
+    }
+
+    fun deleteByOneOnOneId(id: Long?) {
+        participantRepository.deleteByOneOnOneId(id)
     }
 }
