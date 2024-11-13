@@ -5,7 +5,7 @@ import com.getbridge.homework.domain.oneonone_module.entities.OneOnOne
 import com.getbridge.homework.domain.oneonone_module.entities.Participant
 import com.getbridge.homework.domain.oneonone_module.exceptions.OneOnOneException
 import com.getbridge.homework.domain.oneonone_module.repositories.OneOnOneRepository
-import com.getbridge.homework.domain.oneonone_module.value_objects.OneOnOneWithParticipants
+import com.getbridge.homework.domain.oneonone_module.value_objects.OneOnOneSearch
 import org.jooq.Configuration
 import org.springframework.stereotype.Service
 
@@ -16,11 +16,10 @@ class OneOnOneService(
     private val participantService: ParticipantService,
 ) {
 
-    fun create(oneOnOne: OneOnOne, mapToParticipant: List<Participant>) {
-        jooqService.dbContext?.transactionResult { _: Configuration? ->
+    fun create(oneOnOne: OneOnOne, mapToParticipant: List<Participant>) =
+        jooqService.dbContext.transactionResult { _: Configuration? ->
             transactionalCreate(oneOnOne, mapToParticipant)
         }
-    }
 
     private fun transactionalCreate(oneOnOne: OneOnOne, mapToParticipant: List<Participant>) {
         val newOneOnOne = oneOnOneRepository.create(oneOnOne)
@@ -28,13 +27,9 @@ class OneOnOneService(
         participantService.createAll(mapToParticipant.map { it.copy(oneOnOnesId = newOneOnOne.id) })
     }
 
-    fun delete(id: Long) {
-        oneOnOneRepository.delete(id)
-    }
+    fun delete(id: Long) = oneOnOneRepository.delete(id)
 
-    fun get(id: Long): OneOnOneWithParticipants {
-        return oneOnOneRepository.get(id)
-    }
+    fun get(id: Long) = oneOnOneRepository.get(id)
 
     fun update(oneOnOne: OneOnOne, participants: List<Participant>) {
         if (oneOnOneRepository.isConcluded(oneOnOne.id)) {
@@ -46,7 +41,7 @@ class OneOnOneService(
         participantService.createAll(participants)
     }
 
-    fun conclude(id: Long) {
-        oneOnOneRepository.conclude(id)
-    }
+    fun conclude(id: Long) = oneOnOneRepository.conclude(id)
+
+    fun search(mapToOneOnOneSearch: OneOnOneSearch) = oneOnOneRepository.search(mapToOneOnOneSearch)
 }

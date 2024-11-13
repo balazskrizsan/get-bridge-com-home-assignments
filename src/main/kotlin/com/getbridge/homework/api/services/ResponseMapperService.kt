@@ -1,8 +1,6 @@
 package com.getbridge.homework.api.services
 
-import com.getbridge.homework.api.responses.GetResponse
-import com.getbridge.homework.api.responses.OneOnOneResponse
-import com.getbridge.homework.api.responses.ParticipantResponse
+import com.getbridge.homework.api.responses.*
 import com.getbridge.homework.domain.oneonone_module.entities.OneOnOne
 import com.getbridge.homework.domain.oneonone_module.entities.Participant
 import com.getbridge.homework.domain.oneonone_module.value_objects.OneOnOneWithParticipants
@@ -32,5 +30,15 @@ class ResponseMapperService {
                     employeeId = it.employeeId,
                 )
             }
+
+        fun mapToSearchResponse(oneOnOneWithParticipants: List<OneOnOneWithParticipants>) =
+            GetSearchResponse(
+                oneOnOneWithParticipants = oneOnOneWithParticipants.map {
+                    OneOnOneWithParticipantsResponse(
+                        oneOnOne = mapToOneOnOneResponse(it.oneOnOne),
+                        participants = mapToParticipantResponse(it.participants),
+                    )
+                }
+            )
     }
 }

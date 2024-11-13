@@ -7,6 +7,7 @@ import com.getbridge.homework.domain.common_module.providers.LocalDateTimeProvid
 import com.getbridge.homework.domain.common_module.services.JooqService
 import com.getbridge.homework.domain.oneonone_module.entities.OneOnOne
 import com.getbridge.homework.domain.oneonone_module.entities.Participant
+import com.getbridge.homework.domain.oneonone_module.value_objects.OneOnOneSearch
 import com.getbridge.homework.domain.oneonone_module.value_objects.OneOnOneWithParticipants
 import org.springframework.stereotype.Repository
 
@@ -27,7 +28,7 @@ class OneOnOneRepository(
     }
 
     fun delete(id: Long) {
-        jooqService.dbContext?.deleteFrom(oneOnOnesTable)?.where(oneOnOnesTable.ID.eq(id))?.execute()
+        jooqService.dbContext.deleteFrom(oneOnOnesTable)?.where(oneOnOnesTable.ID.eq(id))?.execute()
     }
 
     fun get(id: Long): OneOnOneWithParticipants {
@@ -83,5 +84,38 @@ class OneOnOneRepository(
             .fetch()
 
         return concluded.size != 1
+    }
+
+    fun search(mapToOneOnOneSearch: OneOnOneSearch): List<OneOnOneWithParticipants> {
+        val query = jooqService.dbContext
+            .select(oneOnOnesTable.asterisk())
+            .select(participantTable.asterisk())
+            .from(oneOnOnesTable)
+            .leftJoin(participantTable).on(oneOnOnesTable.ID.eq(participantTable.ONE_ON_ONES_ID))
+
+        if (null != mapToOneOnOneSearch.title) {
+            query.where(oneOnOnesTable.TITLE.contains(mapToOneOnOneSearch.title))
+        }
+
+        if (null != mapToOneOnOneSearch.startDate) {
+            query.where(oneOnOnesTable.PLANNED_DATE.greaterOrEqual(mapToOneOnOneSearch.startDate))
+        }
+
+        if (null != mapToOneOnOneSearch.endDate) {
+            query.where(oneOnOnesTable.PLANNED_DATE.lessOrEqual(mapToOneOnOneSearch.endDate))
+        }
+
+        if (true == mapToOneOnOneSearch.isConcluded) {
+            query.where(oneOnOnesTable.CONCLUDE.isNotNull())
+        } else if (false == mapToOneOnOneSearch.isConcluded) {
+            query.where(oneOnOnesTable.CONCLUDE.isNull())
+        }
+
+        return query.fetchGroups(oneOnOnesTable.ID).map { (_, records) ->
+            OneOnOneWithParticipants(
+                oneOnOne = records.first().into(OneOnOne::class.java),
+                participants = records.into(Participant::class.java),
+            )
+        }
     }
 }
