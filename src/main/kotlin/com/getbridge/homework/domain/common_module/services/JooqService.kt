@@ -11,7 +11,12 @@ import org.springframework.stereotype.Service
 
 @Service
 class JooqService(val ap: ApplicationPropertiesService) {
-    val dbContext: DSLContext?
+
+    companion object {
+        private var dslContext: DSLContext? = null
+    }
+
+    val dbContext: DSLContext
         get() {
             if (null == dslContext) {
                 val config = HikariConfig()
@@ -27,14 +32,10 @@ class JooqService(val ap: ApplicationPropertiesService) {
                 dslContext = DSL.using(HikariDataSource(config), SQLDialect.POSTGRES)
             }
 
-            return dslContext
+            return dslContext as DSLContext
         }
 
     fun transaction(transactional: TransactionalRunnable) {
         dbContext!!.transaction(transactional)
-    }
-
-    companion object {
-        private var dslContext: DSLContext? = null
     }
 }

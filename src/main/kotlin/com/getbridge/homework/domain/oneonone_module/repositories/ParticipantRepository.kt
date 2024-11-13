@@ -13,15 +13,15 @@ class ParticipantRepository(val jooqService: JooqService) {
 
     fun createAll(participants: List<Participant>) {
         jooqService.dbContext
-            ?.insertInto(participantTable, participantTable.ONE_ON_ONES_ID, participantTable.EMPLOYEE_ID)
-            ?.valuesOfRows(participants.map { row(it.oneOnOnesId, it.employeeId) })
-            ?.execute()
+            .insertInto(participantTable, participantTable.ONE_ON_ONES_ID, participantTable.EMPLOYEE_ID)
+            .valuesOfRows(participants.map { row(it.oneOnOnesId, it.employeeId) })
+            .execute()
     }
 
     fun deleteByOneOnOneId(id: Long?) {
         jooqService.dbContext
-            ?.deleteFrom(participantTable)
-            ?.where(participantTable.ONE_ON_ONES_ID.eq(id))
-            ?.execute()
+            .deleteFrom(participantTable)
+            .where(participantTable.ONE_ON_ONES_ID.eq(id))
+            .execute()
     }
 }

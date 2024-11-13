@@ -20,12 +20,8 @@ class OneOnOneRepository(
     protected val participantTable: Participants = Participants.PARTICIPANTS
 
     fun create(oneOnOne: OneOnOne): OneOnOne {
-        val newRecord = jooqService.dbContext?.newRecord(oneOnOnesTable, oneOnOne)
-        newRecord?.store()
-
-        if (null == newRecord) {
-            throw RepositoryException("Failed to create OneOnOne")
-        }
+        val newRecord = jooqService.dbContext.newRecord(oneOnOnesTable, oneOnOne)
+        newRecord.store()
 
         return newRecord.into(OneOnOne::class.java)
     }
@@ -35,22 +31,25 @@ class OneOnOneRepository(
     }
 
     fun get(id: Long): OneOnOneWithParticipants {
-        val response = jooqService.dbContext
-            ?.select(oneOnOnesTable.asterisk())
-            ?.select(participantTable.asterisk())
-            ?.from(oneOnOnesTable)
-            ?.leftJoin(participantTable)?.on(oneOnOnesTable.ID.eq(participantTable.ONE_ON_ONES_ID))
-            ?.where(oneOnOnesTable.ID.eq(id))
-            ?.fetchGroups(oneOnOnesTable.ID)
-            ?.map { (_, records) ->
-                OneOnOneWithParticipants(
-                    oneOnOne = records.first().into(OneOnOne::class.java),
-                    participants = records.into(Participant::class.java),
-                )
-            }
-            ?.first()
+        val response: OneOnOneWithParticipants?
+        try {
 
-        if (null == response) {
+            response = jooqService.dbContext
+                .select(oneOnOnesTable.asterisk())
+                .select(participantTable.asterisk())
+                .from(oneOnOnesTable)
+                .leftJoin(participantTable).on(oneOnOnesTable.ID.eq(participantTable.ONE_ON_ONES_ID))
+                .where(oneOnOnesTable.ID.eq(id))
+                .fetchGroups(oneOnOnesTable.ID)
+                .map { (_, records) ->
+                    OneOnOneWithParticipants(
+                        oneOnOne = records.first().into(OneOnOne::class.java),
+                        participants = records.into(Participant::class.java),
+                    )
+                }
+                .first()
+
+        } catch (NoSuchElementException: Exception) {
             throw RepositoryException("OneOnOne record not found")
         }
 
@@ -59,20 +58,30 @@ class OneOnOneRepository(
 
     fun update(oneOnOne: OneOnOne) {
         jooqService.dbContext
-            ?.update(oneOnOnesTable)
-            ?.set(oneOnOnesTable.TITLE, oneOnOne.title)
-            ?.set(oneOnOnesTable.PLANNED_DATE, oneOnOne.plannedDate)
-            ?.set(oneOnOnesTable.DESCRIPTION, oneOnOne.description)
-            ?.set(oneOnOnesTable.LOCATION, oneOnOne.location)
-            ?.where(oneOnOnesTable.ID.eq(oneOnOne.id))
-            ?.execute()
+            .update(oneOnOnesTable)
+            .set(oneOnOnesTable.TITLE, oneOnOne.title)
+            .set(oneOnOnesTable.PLANNED_DATE, oneOnOne.plannedDate)
+            .set(oneOnOnesTable.DESCRIPTION, oneOnOne.description)
+            .set(oneOnOnesTable.LOCATION, oneOnOne.location)
+            .where(oneOnOnesTable.ID.eq(oneOnOne.id))
+            .execute()
     }
 
     fun conclude(id: Long) {
         jooqService.dbContext
-            ?.update(oneOnOnesTable)
-            ?.set(oneOnOnesTable.CONCLUDE, localDateTimeProvider.now())
-            ?.where(oneOnOnesTable.ID.eq(id))
-            ?.execute()
+            .update(oneOnOnesTable)
+            .set(oneOnOnesTable.CONCLUDE, localDateTimeProvider.now())
+            .where(oneOnOnesTable.ID.eq(id))
+            .execute()
+    }
+
+    fun isConcluded(id: Long?): Boolean {
+        val concluded = jooqService.dbContext
+            .selectFrom(oneOnOnesTable)
+            .where(oneOnOnesTable.ID.eq(id))
+            .and(oneOnOnesTable.CONCLUDE.isNull())
+            .fetch()
+
+        return concluded.size != 1
     }
 }

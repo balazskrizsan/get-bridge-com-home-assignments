@@ -3,6 +3,7 @@ package com.getbridge.homework.domain.oneonone_module.services
 import com.getbridge.homework.domain.common_module.services.JooqService
 import com.getbridge.homework.domain.oneonone_module.entities.OneOnOne
 import com.getbridge.homework.domain.oneonone_module.entities.Participant
+import com.getbridge.homework.domain.oneonone_module.exceptions.OneOnOneException
 import com.getbridge.homework.domain.oneonone_module.repositories.OneOnOneRepository
 import com.getbridge.homework.domain.oneonone_module.value_objects.OneOnOneWithParticipants
 import org.jooq.Configuration
@@ -36,6 +37,10 @@ class OneOnOneService(
     }
 
     fun update(oneOnOne: OneOnOne, participants: List<Participant>) {
+        if (oneOnOneRepository.isConcluded(oneOnOne.id)) {
+            throw OneOnOneException("OneOnOne is already concluded")
+        }
+
         oneOnOneRepository.update(oneOnOne)
         participantService.deleteByOneOnOneId(oneOnOne.id)
         participantService.createAll(participants)
