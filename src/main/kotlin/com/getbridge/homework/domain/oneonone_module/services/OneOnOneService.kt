@@ -1,11 +1,13 @@
 package com.getbridge.homework.domain.oneonone_module.services
 
+import com.getbridge.homework.domain.common_module.services.AuthValidatorService
 import com.getbridge.homework.domain.common_module.services.JooqService
 import com.getbridge.homework.domain.oneonone_module.entities.OneOnOne
 import com.getbridge.homework.domain.oneonone_module.entities.Participant
 import com.getbridge.homework.domain.oneonone_module.exceptions.OneOnOneException
 import com.getbridge.homework.domain.oneonone_module.repositories.OneOnOneRepository
 import com.getbridge.homework.domain.oneonone_module.value_objects.OneOnOneSearch
+import com.getbridge.homework.domain.oneonone_module.value_objects.OneOnOneWithParticipants
 import org.jooq.Configuration
 import org.springframework.stereotype.Service
 
@@ -14,6 +16,7 @@ class OneOnOneService(
     private val jooqService: JooqService,
     private val oneOnOneRepository: OneOnOneRepository,
     private val participantService: ParticipantService,
+    private val authValidatorService: AuthValidatorService,
 ) {
 
     fun create(oneOnOne: OneOnOne, mapToParticipant: List<Participant>) =
@@ -29,7 +32,13 @@ class OneOnOneService(
 
     fun delete(id: Long) = oneOnOneRepository.delete(id)
 
-    fun get(id: Long) = oneOnOneRepository.get(id)
+    fun get(id: Long, authenticatedUserId: Long): OneOnOneWithParticipants {
+        val response = oneOnOneRepository.get(id)
+
+        authValidatorService.check(authenticatedUserId, response.participants)
+
+        return response
+    }
 
     fun update(oneOnOne: OneOnOne, participants: List<Participant>) {
         if (oneOnOneRepository.isConcluded(oneOnOne.id)) {
