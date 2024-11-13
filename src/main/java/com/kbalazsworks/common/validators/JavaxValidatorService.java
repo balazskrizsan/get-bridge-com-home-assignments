@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Set;
 
 @Service
-@Slf4j
 public class JavaxValidatorService<T>
 {
     public void validateWithConsoleLog(@NonNull T entity)
@@ -25,7 +24,7 @@ public class JavaxValidatorService<T>
 
         for (ConstraintViolation<T> violation : violations)
         {
-//            log.info("Validation error: " + violation.getMessage()); @todo: make kotlin compatible
+            System.out.println("Validation error: " + violation.getMessage());
         }
     }
 

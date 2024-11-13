@@ -32,4 +32,16 @@ public class ResponseEntityBuilder<T>
 
         return this;
     }
+
+    public ResponseEntityBuilder<T> setStatusCode(HttpStatus statusCode) {
+        this.statusCode = statusCode;
+
+        return this;
+    }
+
+    public ResponseEntityBuilder<T> setErrorCode(int errorCode) {
+        this.errorCode = errorCode;
+
+        return this;
+    }
 }
