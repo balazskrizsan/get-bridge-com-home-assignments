@@ -7,13 +7,12 @@ package com.getbridge.homework.db;
 import com.getbridge.homework.db.tables.FlywaySchemaHistory;
 import com.getbridge.homework.db.tables.OneOnOnes;
 import com.getbridge.homework.db.tables.Participants;
-
-import java.util.Arrays;
-import java.util.List;
-
 import org.jooq.Catalog;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
+
+import java.util.Arrays;
+import java.util.List;
 
 
 /**

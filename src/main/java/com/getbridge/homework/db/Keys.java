@@ -10,7 +10,6 @@ import com.getbridge.homework.db.tables.Participants;
 import com.getbridge.homework.db.tables.records.FlywaySchemaHistoryRecord;
 import com.getbridge.homework.db.tables.records.OneOnOnesRecord;
 import com.getbridge.homework.db.tables.records.ParticipantsRecord;
-
 import org.jooq.ForeignKey;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;

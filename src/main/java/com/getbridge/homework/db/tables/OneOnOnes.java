@@ -7,18 +7,14 @@ package com.getbridge.homework.db.tables;
 import com.getbridge.homework.db.Keys;
 import com.getbridge.homework.db.Public;
 import com.getbridge.homework.db.tables.records.OneOnOnesRecord;
-
-import java.time.LocalDateTime;
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function7;
+import org.jooq.Function8;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row7;
+import org.jooq.Row8;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
@@ -28,6 +24,9 @@ import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+
+import java.time.LocalDateTime;
+import java.util.function.Function;
 
 
 /**
@@ -85,6 +84,11 @@ public class OneOnOnes extends TableImpl<OneOnOnesRecord> {
      * The column <code>public.one_on_ones.updated_at</code>.
      */
     public final TableField<OneOnOnesRecord, LocalDateTime> UPDATED_AT = createField(DSL.name("updated_at"), SQLDataType.LOCALDATETIME(6).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "");
+
+    /**
+     * The column <code>public.one_on_ones.conclude</code>.
+     */
+    public final TableField<OneOnOnesRecord, LocalDateTime> CONCLUDE = createField(DSL.name("conclude"), SQLDataType.LOCALDATETIME(6), this, "");
 
     private OneOnOnes(Name alias, Table<OneOnOnesRecord> aliased) {
         this(alias, aliased, null);
@@ -174,18 +178,18 @@ public class OneOnOnes extends TableImpl<OneOnOnesRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row7 type methods
+    // Row8 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row7<Long, String, String, LocalDateTime, String, LocalDateTime, LocalDateTime> fieldsRow() {
-        return (Row7) super.fieldsRow();
+    public Row8<Long, String, String, LocalDateTime, String, LocalDateTime, LocalDateTime, LocalDateTime> fieldsRow() {
+        return (Row8) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function7<? super Long, ? super String, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function8<? super Long, ? super String, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -193,7 +197,7 @@ public class OneOnOnes extends TableImpl<OneOnOnesRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function7<? super Long, ? super String, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function8<? super Long, ? super String, ? super String, ? super LocalDateTime, ? super String, ? super LocalDateTime, ? super LocalDateTime, ? super LocalDateTime, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

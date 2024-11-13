@@ -15,6 +15,7 @@ class RequestMapperService {
             plannedDate = createLocalDateTime(request.plannedDate),
             description = request.description,
             location = request.location,
+            conclude = null,
         )
 
         fun mapToOneOnOne(request: PutRequest) = OneOnOne(
@@ -23,6 +24,7 @@ class RequestMapperService {
             plannedDate = createLocalDateTime(request.plannedDate),
             description = request.description,
             location = request.location,
+            conclude = null,
         )
 
         fun mapToParticipant(request: PostOneOnOneRequest) =

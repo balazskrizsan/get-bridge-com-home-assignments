@@ -5,7 +5,6 @@ package com.getbridge.homework.db.tables.records;
 
 
 import com.getbridge.homework.db.tables.Participants;
-
 import org.jooq.Field;
 import org.jooq.Record2;
 import org.jooq.Row2;

@@ -40,4 +40,8 @@ class OneOnOneService(
         participantService.deleteByOneOnOneId(oneOnOne.id)
         participantService.createAll(participants)
     }
+
+    fun conclude(id: Long) {
+        oneOnOneRepository.conclude(id)
+    }
 }

@@ -8,4 +8,5 @@ data class OneOnOne(
     val plannedDate: LocalDateTime,
     val description: String,
     val location: String,
+    val conclude: LocalDateTime?,
 )

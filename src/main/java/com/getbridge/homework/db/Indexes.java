@@ -5,7 +5,6 @@ package com.getbridge.homework.db;
 
 
 import com.getbridge.homework.db.tables.FlywaySchemaHistory;
-
 import org.jooq.Index;
 import org.jooq.OrderField;
 import org.jooq.impl.DSL;

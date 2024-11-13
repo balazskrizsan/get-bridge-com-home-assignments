@@ -3,6 +3,7 @@ package com.getbridge.homework.domain.oneonone_module.repositories
 import com.getbridge.homework.db.tables.OneOnOnes
 import com.getbridge.homework.db.tables.Participants
 import com.getbridge.homework.domain.common_module.exceptions.RepositoryException
+import com.getbridge.homework.domain.common_module.providers.LocalDateTimeProvider
 import com.getbridge.homework.domain.common_module.services.JooqService
 import com.getbridge.homework.domain.oneonone_module.entities.OneOnOne
 import com.getbridge.homework.domain.oneonone_module.entities.Participant
@@ -10,7 +11,10 @@ import com.getbridge.homework.domain.oneonone_module.value_objects.OneOnOneWithP
 import org.springframework.stereotype.Repository
 
 @Repository
-class OneOnOneRepository(private val jooqService: JooqService) {
+class OneOnOneRepository(
+    private val jooqService: JooqService,
+    private val localDateTimeProvider: LocalDateTimeProvider
+) {
 
     protected val oneOnOnesTable: OneOnOnes = OneOnOnes.ONE_ON_ONES
     protected val participantTable: Participants = Participants.PARTICIPANTS
@@ -61,6 +65,14 @@ class OneOnOneRepository(private val jooqService: JooqService) {
             ?.set(oneOnOnesTable.DESCRIPTION, oneOnOne.description)
             ?.set(oneOnOnesTable.LOCATION, oneOnOne.location)
             ?.where(oneOnOnesTable.ID.eq(oneOnOne.id))
+            ?.execute()
+    }
+
+    fun conclude(id: Long) {
+        jooqService.dbContext
+            ?.update(oneOnOnesTable)
+            ?.set(oneOnOnesTable.CONCLUDE, localDateTimeProvider.now())
+            ?.where(oneOnOnesTable.ID.eq(id))
             ?.execute()
     }
 }

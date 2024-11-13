@@ -22,6 +22,7 @@ class ResponseMapperService {
                 plannedDate = oneOnOne.plannedDate,
                 description = oneOnOne.description,
                 location = oneOnOne.location,
+                conclude = oneOnOne.conclude,
             )
 
         private fun mapToParticipantResponse(participants: List<Participant>) =

@@ -62,7 +62,8 @@ class PostActionTest {
                 title = "tit",
                 description = "des",
                 plannedDate = LocalDateTime.of(2020, 1, 2, 3, 4, 5),
-                location = "loc"
+                location = "loc",
+                conclude = null,
             )
         )
         val expectedParticipant = mutableListOf(

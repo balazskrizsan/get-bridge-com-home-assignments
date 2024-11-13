@@ -44,7 +44,7 @@ class GetActionTest {
         val testedUrl = "/api/v1/one-on-one/1"
 
         val expectedStatus = status().isOk()
-        val expectedData = """{"data":{"oneOnOne":{"id":1,"title":"tit","plannedDate":"2020-01-02T03:04:05","description":"des","location":"loc"},"participants":[{"oneOnOnesId":1,"employeeId":111},{"oneOnOnesId":1,"employeeId":222}]},"success":true,"errorCode":0,"requestId":""}"""
+        val expectedData = """{"data":{"oneOnOne":{"id":1,"title":"tit","plannedDate":"2020-01-02T03:04:05","description":"des","location":"loc","conclude":null},"participants":[{"oneOnOnesId":1,"employeeId":111},{"oneOnOnesId":1,"employeeId":222}]},"success":true,"errorCode":0,"requestId":""}"""
 
         // Act - Assert
         mockMvc

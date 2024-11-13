@@ -8,12 +8,6 @@ import com.getbridge.homework.db.Indexes;
 import com.getbridge.homework.db.Keys;
 import com.getbridge.homework.db.Public;
 import com.getbridge.homework.db.tables.records.FlywaySchemaHistoryRecord;
-
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Function10;
@@ -31,6 +25,11 @@ import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
 
 
 /**
