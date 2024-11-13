@@ -39,7 +39,7 @@ class OneOnOneServiceTest {
             scripts = ["classpath:test/sqls/_truncate_tables.sql"]
         )
     )
-    fun `update | concluded OneOnOne throws OneOnOneException`() {
+    fun `update method concluded OneOnOne throws OneOnOneException`() {
         // Arrange
         val testedOneOnOne = OneOnOne(1, "tit", LocalDateTime.of(2020, 1, 2, 3, 4, 5), "des", "loc", null)
 
