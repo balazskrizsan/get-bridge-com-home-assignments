@@ -28,13 +28,12 @@ class OneOnOneRepository(
     }
 
     fun delete(id: Long) {
-        jooqService.dbContext.deleteFrom(oneOnOnesTable)?.where(oneOnOnesTable.ID.eq(id))?.execute()
+        jooqService.dbContext.deleteFrom(oneOnOnesTable).where(oneOnOnesTable.ID.eq(id)).execute()
     }
 
     fun get(id: Long): OneOnOneWithParticipants {
         val response: OneOnOneWithParticipants?
         try {
-
             response = jooqService.dbContext
                 .select(oneOnOnesTable.asterisk())
                 .select(participantTable.asterisk())
@@ -49,8 +48,7 @@ class OneOnOneRepository(
                     )
                 }
                 .first()
-
-        } catch (NoSuchElementException: Exception) {
+        } catch (e: NoSuchElementException) {
             throw RepositoryException("OneOnOne record not found")
         }
 
