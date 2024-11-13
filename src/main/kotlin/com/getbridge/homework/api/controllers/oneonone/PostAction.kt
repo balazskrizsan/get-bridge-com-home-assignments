@@ -23,7 +23,7 @@ class PostAction(private val oneOnOneService: OneOnOneService) {
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
     fun action(@RequestBody request: PostOneOnOneRequest): ResponseEntity<ResponseData<String>> {
-        JavaxValidatorService<PostOneOnOneRequest>().validate(request) // @todo: add validator values
+        JavaxValidatorService<PostOneOnOneRequest>().validate(request)
 
         oneOnOneService.create(
             RequestMapperService.mapToOneOnOne(request),

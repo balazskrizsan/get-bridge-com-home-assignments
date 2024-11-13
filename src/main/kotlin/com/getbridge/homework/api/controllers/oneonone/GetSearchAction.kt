@@ -7,6 +7,7 @@ import com.getbridge.homework.api.services.ResponseMapperService
 import com.getbridge.homework.domain.oneonone_module.services.OneOnOneService
 import com.getbridge.homework.domain.oneonone_module.value_objects.OneOnOneWithParticipants
 import com.kbalazsworks.common.builders.ResponseEntityBuilder
+import com.kbalazsworks.common.validators.JavaxValidatorService
 import com.kbalazsworks.smartscrumpokerbackend.api.value_objects.ResponseData
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -25,8 +26,10 @@ class GetSearchAction(private val oneOnOneService: OneOnOneService) {
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
     fun action(@ModelAttribute request: GetSearchRequest): ResponseEntity<ResponseData<GetSearchResponse>> {
+        JavaxValidatorService<GetSearchRequest>().validate(request)
 
-        val response: List<OneOnOneWithParticipants> = oneOnOneService.search(RequestMapperService.mapToOneOnOneSearch(request))
+        val response: List<OneOnOneWithParticipants> =
+            oneOnOneService.search(RequestMapperService.mapToOneOnOneSearch(request))
 
         return ResponseEntityBuilder<GetSearchResponse>()
             .setData(ResponseMapperService.mapToSearchResponse(response))
