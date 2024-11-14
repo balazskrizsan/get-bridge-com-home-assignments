@@ -54,7 +54,13 @@ class OneOnOneService(
         participantService.createAll(participants)
     }
 
-    fun conclude(id: Long) = oneOnOneRepository.conclude(id)
+    fun conclude(id: Long, authenticatedUserId: Long) {
+        val updatableOneOnOne = oneOnOneRepository.get(id)
+
+        authValidatorService.check(authenticatedUserId, updatableOneOnOne.participants)
+
+        oneOnOneRepository.conclude(id)
+    }
 
     fun search(mapToOneOnOneSearch: OneOnOneSearch) = oneOnOneRepository.search(mapToOneOnOneSearch)
 }

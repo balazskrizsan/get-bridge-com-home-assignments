@@ -55,9 +55,10 @@ class PatchWithConcludeActionTest {
             scripts = ["classpath:test/sqls/_truncate_tables.sql"]
         )
     )
-    fun `Valid conduct request updates the db and returns 200 ok`() {
+    fun `Valid conclude request updates the db and returns 200 ok`() {
         // Arrange
         val testedUrl = "/api/v1/one-on-one/1/conclude"
+        val testedAuthenticatedUserId = 111L
 
         val expectedStatus = status().isOk()
         val expectedData = """{"data":null,"success":true,"errorCode":0,"requestId":""}"""
@@ -79,14 +80,15 @@ class PatchWithConcludeActionTest {
                 MockMvcRequestBuilders
                     .patch(testedUrl)
                     .contentType(MediaType.APPLICATION_JSON)
+                    .header("X-AUTHENTICATED-USER", testedAuthenticatedUserId)
                     .accept(MediaType.APPLICATION_JSON)
             )
             .andExpect(expectedStatus)
             .andExpect(content().string(expectedData))
 
         val actualOneOnOnes = jooqService.dbContext
-            ?.selectFrom(oneOnOnesTable)
-            ?.fetchOneInto(OneOnOne::class.java)
+            .selectFrom(oneOnOnesTable)
+            .fetchOneInto(OneOnOne::class.java)
 
         assertThat(actualOneOnOnes).isEqualTo(expectedOneOnOnes)
     }
