@@ -68,5 +68,6 @@ class OneOnOneService(
         oneOnOneRepository.conclude(id)
     }
 
-    fun search(mapToOneOnOneSearch: OneOnOneSearch) = oneOnOneRepository.search(mapToOneOnOneSearch)
+    fun search(mapToOneOnOneSearch: OneOnOneSearch, authenticatedUserId: Long) =
+        oneOnOneRepository.search(mapToOneOnOneSearch, authenticatedUserId)
 }

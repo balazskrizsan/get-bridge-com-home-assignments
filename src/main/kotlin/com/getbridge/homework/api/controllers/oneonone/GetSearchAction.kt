@@ -13,6 +13,7 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -25,11 +26,14 @@ class GetSearchAction(private val oneOnOneService: OneOnOneService) {
         consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
-    fun action(@ModelAttribute request: GetSearchRequest): ResponseEntity<ResponseData<GetSearchResponse>> {
+    fun action(
+        @ModelAttribute request: GetSearchRequest,
+        @RequestHeader("X-AUTHENTICATED-USER") userId: Long
+    ): ResponseEntity<ResponseData<GetSearchResponse>> {
         JavaxValidatorService<GetSearchRequest>().validate(request)
 
         val response: List<OneOnOneWithParticipants> =
-            oneOnOneService.search(RequestMapperService.mapToOneOnOneSearch(request))
+            oneOnOneService.search(RequestMapperService.mapToOneOnOneSearch(request), userId)
 
         return ResponseEntityBuilder<GetSearchResponse>()
             .setData(ResponseMapperService.mapToSearchResponse(response))

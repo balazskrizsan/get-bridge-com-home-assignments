@@ -9,6 +9,7 @@ import com.getbridge.homework.domain.oneonone_module.entities.OneOnOne
 import com.getbridge.homework.domain.oneonone_module.entities.Participant
 import com.getbridge.homework.domain.oneonone_module.value_objects.OneOnOneSearch
 import com.getbridge.homework.domain.oneonone_module.value_objects.OneOnOneWithParticipants
+import org.jooq.impl.DSL
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -74,12 +75,25 @@ class OneOnOneRepository(
             .execute()
     }
 
-    fun search(mapToOneOnOneSearch: OneOnOneSearch): List<OneOnOneWithParticipants> {
-        val query = jooqService.dbContext
+    fun search(mapToOneOnOneSearch: OneOnOneSearch, authenticatedUserId: Long): List<OneOnOneWithParticipants> {
+        val ctx = jooqService.dbContext
+
+        val prefilter = ctx.select(participantTable.ONE_ON_ONES_ID, DSL.count().`as`("count"))
+            .from(participantTable)
+            .where(participantTable.EMPLOYEE_ID.eq(authenticatedUserId))
+            .groupBy(participantTable.ONE_ON_ONES_ID)
+            .asTable("filter")
+
+        // @formatter:off
+        val query = ctx.select(DSL.field("count"))
             .select(oneOnOnesTable.asterisk())
             .select(participantTable.asterisk())
             .from(oneOnOnesTable)
-            .leftJoin(participantTable).on(oneOnOnesTable.ID.eq(participantTable.ONE_ON_ONES_ID))
+            .leftJoin(prefilter)
+                .on(oneOnOnesTable.ID.eq(prefilter.field("one_on_ones_id", oneOnOnesTable.ID.dataType)))
+            .leftJoin(participantTable)
+                .on(oneOnOnesTable.ID.eq(participantTable.ONE_ON_ONES_ID))
+        // @formatter:on
 
         if (null != mapToOneOnOneSearch.title) {
             query.where(oneOnOnesTable.TITLE.contains(mapToOneOnOneSearch.title))
@@ -99,11 +113,14 @@ class OneOnOneRepository(
             query.where(oneOnOnesTable.CONCLUDE.isNull())
         }
 
-        return query.fetchGroups(oneOnOnesTable.ID).map { (_, records) ->
-            OneOnOneWithParticipants(
-                oneOnOne = records.first().into(OneOnOne::class.java),
-                participants = records.into(Participant::class.java),
-            )
-        }
+        query.where(DSL.field("filter.count").greaterThan(0))
+
+        return query.fetchGroups(oneOnOnesTable.ID)
+            .map { (_, records) ->
+                OneOnOneWithParticipants(
+                    oneOnOne = records.first().into(OneOnOne::class.java),
+                    participants = records.into(Participant::class.java),
+                )
+            }
     }
 }
