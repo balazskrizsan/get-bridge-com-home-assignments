@@ -53,6 +53,7 @@ class DeleteActionTest {
     fun `Valid delete request deletes from the db and returns 200 ok`() {
         // Arrange
         val testedUrl = "/api/v1/one-on-one/1"
+        val testedAuthenticatedUserId = 111
 
         val expectedStatus = status().isOk()
         val expectedData = """{"data":null,"success":true,"errorCode":0,"requestId":""}"""
@@ -65,20 +66,21 @@ class DeleteActionTest {
                 MockMvcRequestBuilders
                     .delete(testedUrl)
                     .contentType(MediaType.APPLICATION_JSON)
+                    .header("X-AUTHENTICATED-USER", testedAuthenticatedUserId)
                     .accept(MediaType.APPLICATION_JSON)
             )
             .andExpect(expectedStatus)
             .andExpect(content().string(expectedData))
 
         val actualOneOnOnesCount = jooqService.dbContext
-            ?.selectCount()
-            ?.from(oneOnOnesTable)
-            ?.fetchOne(0, Int::class.java)
+            .selectCount()
+            .from(oneOnOnesTable)
+            .fetchOne(0, Int::class.java)
 
         val actualParticipantCount = jooqService.dbContext
-            ?.selectCount()
-            ?.from(participantTable)
-            ?.fetchOne(0, Int::class.java)
+            .selectCount()
+            .from(participantTable)
+            .fetchOne(0, Int::class.java)
 
         assertAll(
             { assertThat(actualOneOnOnesCount).isEqualTo(expectedOneOnOnesCount) },

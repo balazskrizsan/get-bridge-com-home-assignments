@@ -7,6 +7,7 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -19,9 +20,12 @@ class DeleteAction(private val oneOnOneService: OneOnOneService) {
         consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
-    fun action(@PathVariable id: Long): ResponseEntity<ResponseData<String>> {
+    fun action(
+        @PathVariable id: Long,
+        @RequestHeader("X-AUTHENTICATED-USER") userId: Long
+    ): ResponseEntity<ResponseData<String>> {
 
-        oneOnOneService.delete(id)
+        oneOnOneService.delete(id, userId)
 
         return ResponseEntityBuilder<String>().setData(null).build()
     }

@@ -40,7 +40,7 @@ class OneOnOneServiceTest {
             scripts = ["classpath:test/sqls/_truncate_tables.sql"]
         )
     )
-    fun `update method concluded OneOnOne throws OneOnOneException`() {
+    fun `update method Concluded OneOnOne throws OneOnOneException`() {
         // Arrange
         val testedOneOnOne = OneOnOne(1, "tit", LocalDateTime.of(2020, 1, 2, 3, 4, 5), "des", "loc", null)
         val testedAuthenticatedUserId = 222L
@@ -73,6 +73,32 @@ class OneOnOneServiceTest {
 
         // Act - Assert
         assertThrows<AuthException> { oneOnOneService.update(testedOneOnOne, listOf(), testedAuthenticatedUserId) }
+    }
+
+    @Test
+    @SqlGroup(
+        Sql(
+            executionPhase = ExecutionPhase.BEFORE_TEST_METHOD,
+            config = SqlConfig(transactionMode = TransactionMode.ISOLATED),
+            scripts = [
+                "classpath:test/sqls/_truncate_tables.sql",
+                "classpath:test/sqls/one_on_ones_insert_1_record.sql",
+                "classpath:test/sqls/participants_insert_1_record.sql",
+            ]
+        ),
+        Sql(
+            executionPhase = ExecutionPhase.AFTER_TEST_METHOD,
+            config = SqlConfig(transactionMode = TransactionMode.ISOLATED),
+            scripts = ["classpath:test/sqls/_truncate_tables.sql"]
+        )
+    )
+    fun `delete method Deleting with not unauthenticated user throws AuthException`() {
+        // Arrange
+        val testedOneOnOneId = 1L
+        val testedAuthenticatedUserId = 123L
+
+        // Act - Assert
+        assertThrows<AuthException> { oneOnOneService.delete(testedOneOnOneId, testedAuthenticatedUserId) }
     }
 
     @Test

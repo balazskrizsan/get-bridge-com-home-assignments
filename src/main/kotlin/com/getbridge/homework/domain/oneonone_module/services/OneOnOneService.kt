@@ -30,7 +30,13 @@ class OneOnOneService(
         participantService.createAll(mapToParticipant.map { it.copy(oneOnOnesId = newOneOnOne.id) })
     }
 
-    fun delete(id: Long) = oneOnOneRepository.delete(id)
+    fun delete(id: Long, authenticatedUserId: Long) {
+        val deletableOneOnOne = oneOnOneRepository.get(id)
+
+        authValidatorService.check(authenticatedUserId, deletableOneOnOne.participants)
+
+        oneOnOneRepository.delete(id)
+    }
 
     fun get(id: Long, authenticatedUserId: Long): OneOnOneWithParticipants {
         val response = oneOnOneRepository.get(id)
