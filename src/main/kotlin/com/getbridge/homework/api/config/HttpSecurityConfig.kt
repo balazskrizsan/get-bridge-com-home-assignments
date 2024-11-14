@@ -23,6 +23,10 @@ class HttpSecurityConfig {
                 r.requestMatchers(HttpMethod.PATCH, "/api/v1/one-on-one/{id:\\d+}/conclude").permitAll()
                 r.requestMatchers(HttpMethod.GET, "/api/v1/one-on-one/search").permitAll()
 
+                r.requestMatchers(HttpMethod.GET, "/api-docs").permitAll();
+                r.requestMatchers(HttpMethod.GET, "/api-docs.yaml").permitAll();
+                r.requestMatchers(HttpMethod.GET, "/api-docs/**").permitAll();
+
                 r.anyRequest().denyAll()
             }
 
