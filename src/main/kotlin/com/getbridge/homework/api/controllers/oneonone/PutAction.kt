@@ -21,7 +21,8 @@ class PutAction(private val oneOnOneService: OneOnOneService) {
     )
     fun action(
         @RequestBody request: PutRequest,
-        @PathVariable id: Long
+        @PathVariable id: Long,
+        @RequestHeader("X-AUTHENTICATED-USER") userId: Long
     ): ResponseEntity<ResponseData<String>> {
 
         JavaxValidatorService<PutRequest>().validate(request)
@@ -29,6 +30,7 @@ class PutAction(private val oneOnOneService: OneOnOneService) {
         oneOnOneService.update(
             RequestMapperService.mapToOneOnOne(request.copy(id = id)),
             RequestMapperService.mapToParticipant(request, id),
+            userId,
         )
 
         return ResponseEntityBuilder<String>().setData(null).build()

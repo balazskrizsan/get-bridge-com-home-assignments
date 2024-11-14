@@ -74,16 +74,6 @@ class OneOnOneRepository(
             .execute()
     }
 
-    fun isConcluded(id: Long?): Boolean {
-        val concluded = jooqService.dbContext
-            .selectFrom(oneOnOnesTable)
-            .where(oneOnOnesTable.ID.eq(id))
-            .and(oneOnOnesTable.CONCLUDE.isNull())
-            .fetch()
-
-        return concluded.size != 1
-    }
-
     fun search(mapToOneOnOneSearch: OneOnOneSearch): List<OneOnOneWithParticipants> {
         val query = jooqService.dbContext
             .select(oneOnOnesTable.asterisk())

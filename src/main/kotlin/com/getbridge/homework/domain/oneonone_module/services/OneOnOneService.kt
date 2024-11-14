@@ -40,8 +40,12 @@ class OneOnOneService(
         return response
     }
 
-    fun update(oneOnOne: OneOnOne, participants: List<Participant>) {
-        if (oneOnOneRepository.isConcluded(oneOnOne.id)) {
+    fun update(oneOnOne: OneOnOne, participants: List<Participant>, authenticatedUserId: Long) {
+        val updatableOneOnOne = oneOnOne.id?.let { oneOnOneRepository.get(it) }
+
+        updatableOneOnOne?.let { authValidatorService.check(authenticatedUserId, it.participants) }
+
+        if (null != updatableOneOnOne?.oneOnOne?.conclude) {
             throw OneOnOneException("OneOnOne is already concluded")
         }
 

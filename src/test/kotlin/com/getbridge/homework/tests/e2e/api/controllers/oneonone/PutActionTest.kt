@@ -56,6 +56,7 @@ class PutActionTest {
     fun `Valid request updates the db and returns 200 ok`() {
         // Arrange
         val testedUrl = "/api/v1/one-on-one/1"
+        val testedAuthenticatedUserId = 222L
 
         val expectedStatus = status().isOk()
         val expectedData = """{"data":null,"success":true,"errorCode":0,"requestId":""}"""
@@ -81,6 +82,7 @@ class PutActionTest {
                     .put(testedUrl)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
+                    .header("X-AUTHENTICATED-USER", testedAuthenticatedUserId)
                     .content(
                         """
                             {
@@ -97,14 +99,14 @@ class PutActionTest {
             .andExpect(content().string(expectedData))
 
         val actualOneOnOnes = jooqService.dbContext
-            ?.selectFrom(oneOnOnesTable)
-            ?.orderBy(oneOnOnesTable.ID.asc())
-            ?.fetchInto(OneOnOne::class.java)
+            .selectFrom(oneOnOnesTable)
+            .orderBy(oneOnOnesTable.ID.asc())
+            .fetchInto(OneOnOne::class.java)
 
         val actualParticipant = jooqService.dbContext
-            ?.selectFrom(participantTable)
-            ?.orderBy(participantTable.ONE_ON_ONES_ID.asc())
-            ?.fetchInto(Participant::class.java)
+            .selectFrom(participantTable)
+            .orderBy(participantTable.ONE_ON_ONES_ID.asc())
+            .fetchInto(Participant::class.java)
 
         assertAll(
             { assertThat(actualOneOnOnes).isEqualTo(expectedOneOnOnes) },
