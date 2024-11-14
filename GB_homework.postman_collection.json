@@ -1,0 +1,379 @@
+{
+	"info": {
+		"_postman_id": "6087a87c-4f61-4d85-947c-77a07ca7559f",
+		"name": "GB_homework",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "890294"
+	},
+	"item": [
+		{
+			"name": "health check",
+			"item": [
+				{
+					"name": ":8280/health/200Ok",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost.balazskrizsan.com:8280/health/200Ok",
+							"protocol": "https",
+							"host": [
+								"localhost",
+								"balazskrizsan",
+								"com"
+							],
+							"port": "8280",
+							"path": [
+								"health",
+								"200Ok"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": ":8280/health/403Forbidden",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost.balazskrizsan.com:8280/health/403Forbidden",
+							"protocol": "https",
+							"host": [
+								"localhost",
+								"balazskrizsan",
+								"com"
+							],
+							"port": "8280",
+							"path": [
+								"health",
+								"403Forbidden"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "OpenApi",
+			"item": [
+				{
+					"name": ":8280/api-docs",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost.balazskrizsan.com:8280/api-docs",
+							"protocol": "https",
+							"host": [
+								"localhost",
+								"balazskrizsan",
+								"com"
+							],
+							"port": "8280",
+							"path": [
+								"api-docs"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "One on one",
+			"item": [
+				{
+					"name": ":8280/api/v1/one-on-one/",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"tit\",\r\n    \"description\": \"desc\",\r\n    \"plannedDate\": \"2020-01-02 03:04:05\",\r\n    \"location\": \"loc\",\r\n    \"participants\": [111, 222]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost.balazskrizsan.com:8280/api/v1/one-on-one/",
+							"protocol": "https",
+							"host": [
+								"localhost",
+								"balazskrizsan",
+								"com"
+							],
+							"port": "8280",
+							"path": [
+								"api",
+								"v1",
+								"one-on-one",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": ":8280/api/v1/one-on-one/48",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-AUTHENTICATED-USER",
+								"value": "66",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost.balazskrizsan.com:8280/api/v1/one-on-one/48",
+							"protocol": "https",
+							"host": [
+								"localhost",
+								"balazskrizsan",
+								"com"
+							],
+							"port": "8280",
+							"path": [
+								"api",
+								"v1",
+								"one-on-one",
+								"48"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": ":8280/api/v1/one-on-one/49",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-AUTHENTICATED-USER",
+								"value": "66",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"tit_mod\",\r\n    \"description\": \"desc_mod\",\r\n    \"plannedDate\": \"2020-01-02 03:04:05\",\r\n    \"location\": \"loc_mod\",\r\n    \"participants\": [2222, 4444]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost.balazskrizsan.com:8280/api/v1/one-on-one/49",
+							"protocol": "https",
+							"host": [
+								"localhost",
+								"balazskrizsan",
+								"com"
+							],
+							"port": "8280",
+							"path": [
+								"api",
+								"v1",
+								"one-on-one",
+								"49"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": ":8280/api/v1/one-on-one/48/conclude",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-AUTHENTICATED-USER",
+								"value": "66",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost.balazskrizsan.com:8280/api/v1/one-on-one/48/conclude",
+							"protocol": "https",
+							"host": [
+								"localhost",
+								"balazskrizsan",
+								"com"
+							],
+							"port": "8280",
+							"path": [
+								"api",
+								"v1",
+								"one-on-one",
+								"48",
+								"conclude"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": ":8280/api/v1/one-on-one/search?endDate=2021-12-31 00:00:00&state=closed",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-AUTHENTICATED-USER",
+								"value": "111",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "https://localhost.balazskrizsan.com:8280/api/v1/one-on-one/search?endDate=2021-12-31 00:00:00&state=closed",
+							"protocol": "https",
+							"host": [
+								"localhost",
+								"balazskrizsan",
+								"com"
+							],
+							"port": "8280",
+							"path": [
+								"api",
+								"v1",
+								"one-on-one",
+								"search"
+							],
+							"query": [
+								{
+									"key": "endDate",
+									"value": "2021-12-31 00:00:00"
+								},
+								{
+									"key": "state",
+									"value": "closed"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": ":8280/api/v1/one-on-one/52",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-AUTHENTICATED-USER",
+								"value": "111",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost.balazskrizsan.com:8280/api/v1/one-on-one/52",
+							"protocol": "https",
+							"host": [
+								"localhost",
+								"balazskrizsan",
+								"com"
+							],
+							"port": "8280",
+							"path": [
+								"api",
+								"v1",
+								"one-on-one",
+								"52"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
