@@ -41,7 +41,7 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-    - port: 9092
+    - port: 9091
       targetPort: 5432
   selector:
     app: gb-homework-dev-test-psql-label
