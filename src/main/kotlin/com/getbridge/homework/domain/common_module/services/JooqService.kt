@@ -34,8 +34,4 @@ class JooqService(val ap: ApplicationPropertiesService) {
 
             return dslContext as DSLContext
         }
-
-    fun transaction(transactional: TransactionalRunnable) {
-        dbContext!!.transaction(transactional)
-    }
 }
