@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 import org.springframework.format.annotation.DateTimeFormat
 
-data class PostOneOnOneRequest(
+data class PostRequest(
     @field:NotBlank(message = "Title is required")
     val title: String,
     @field:DateTimeFormat(pattern = "Required formatyyyy-MM-dd")

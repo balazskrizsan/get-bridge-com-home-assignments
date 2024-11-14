@@ -1,7 +1,7 @@
 package com.getbridge.homework.api.services
 
 import com.getbridge.homework.api.requests.oneonone.GetSearchRequest
-import com.getbridge.homework.api.requests.oneonone.PostOneOnOneRequest
+import com.getbridge.homework.api.requests.oneonone.PostRequest
 import com.getbridge.homework.api.requests.oneonone.PutRequest
 import com.getbridge.homework.domain.oneonone_module.entities.OneOnOne
 import com.getbridge.homework.domain.oneonone_module.entities.Participant
@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter
 
 class RequestMapperService {
     companion object {
-        fun mapToOneOnOne(request: PostOneOnOneRequest) = OneOnOne(
+        fun mapToOneOnOne(request: PostRequest) = OneOnOne(
             id = null,
             title = request.title,
             plannedDate = createLocalDateTime(request.plannedDate),
@@ -29,7 +29,7 @@ class RequestMapperService {
             conclude = null,
         )
 
-        fun mapToParticipant(request: PostOneOnOneRequest) =
+        fun mapToParticipant(request: PostRequest) =
             request.participants.map { Participant(oneOnOnesId = null, employeeId = it) }
 
         fun mapToParticipant(request: PutRequest, id: Long) =

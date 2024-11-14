@@ -1,6 +1,6 @@
 package com.getbridge.homework.api.controllers.oneonone
 
-import com.getbridge.homework.api.requests.oneonone.PostOneOnOneRequest
+import com.getbridge.homework.api.requests.oneonone.PostRequest
 import com.getbridge.homework.api.services.RequestMapperService
 import com.getbridge.homework.domain.oneonone_module.services.OneOnOneService
 import com.kbalazsworks.common.builders.ResponseEntityBuilder
@@ -22,8 +22,8 @@ class PostAction(private val oneOnOneService: OneOnOneService) {
         consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
-    fun action(@RequestBody request: PostOneOnOneRequest): ResponseEntity<ResponseData<String>> {
-        JavaxValidatorService<PostOneOnOneRequest>().validate(request)
+    fun action(@RequestBody request: PostRequest): ResponseEntity<ResponseData<String>> {
+        JavaxValidatorService<PostRequest>().validate(request)
 
         oneOnOneService.create(
             RequestMapperService.mapToOneOnOne(request),
